@@ -150,3 +150,56 @@
     def post_list(request):
         return render(request, 'blog/post_list.html', {})
   ```
+
+## Django ORM 和 QuerySets（查询集）
+### Django shell
+  
+  开启 shell
+  ```python manage.py shell```
+
+  ```python
+    # 导入 Post
+    from blog.models import Post
+    # 打印全部数据
+    Post.objects.all()
+    # 导入 User
+    from blog.contrib.auth.models import User
+    # 打印全部用户
+    User.object.all()
+    # 设置me
+    me = User.objects.get(username='admin')
+    # 向表中插入一条数据
+    Post.objects.create(author=me, title='sample title', text='Text')
+    # 查看内容
+    Post.objects.all()
+    
+  ```
+
+### 筛选对象
+  
+  ```python
+    Post.objects.filter(author=me)
+    # 在 title 与 contains 之间有两个下划线字符 ( _ )。 Django 的 ORM 使用此语法来分隔字段名称 （"title"） 和操作或筛选器 （"contains"）
+    Post.objects.filter(title__contains="title")
+    # 已经发布的文章
+    from django.utils import timezone
+    Post.objects.filter(published_date__lte=timezone.now())
+  ```
+
+### 排序
+  
+  ```python
+    Post.objects.order_by('created_date')
+  ```
+
+### 链式 QuerySets
+  
+  ```python
+    Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+  ```
+
+### 退出shell
+  
+  ```python
+    exit()
+  ```
