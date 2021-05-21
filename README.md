@@ -203,3 +203,24 @@
   ```python
     exit()
   ```
+
+
+### 表单
+  
+  添加表单时报错， 强制解决
+  ```python
+    # mysite/setting.oy
+    # 注释 MIDDLEWARE -> 'django.middleware.csrf.CsrfViewMiddleware',
+    
+    MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+  ```
+  
