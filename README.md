@@ -5,10 +5,10 @@
         cd djangoblog
         
         // 创建虚拟环境
-        python3 -m venv mydjango
+        python3 -m venv myvenv
         
         // 运行虚拟环境
-        .\mydjango\Scripts\activate
+        .\myvenv\Scripts\activate
         
         // 安装 django
         pip install django
@@ -64,15 +64,89 @@
         cd project_gitpath
 
         // 创建一个 虚拟环境
-        // python 版本需要和本机版本一样
-        virtualenv python=python3.6 myvenv
-        
-        // 安装 django
-        pip install django
+        // python 版本需要和本机版本一样 
+        // 指定python -p /usr/bin/python3.6
+        virtualenv -p /user/bin/python3.6 myvenv
 
         // 使用虚拟环境
-        source myvenv
+        source myvenv/bin/activate
 
         // 为虚拟环境安装 django
         pip install django
+
+        // 收集静态文件
+        // 多次输入
+        python manage.py collectstatic
+
+        // 创建数据库
+        python manage.py migrate
+        python manage.py createsuperuser
     ```
+
+### 发布网络应用程序
+    
++ web ->  Add a new web app
+
+    ```
+    PythonAnywhere -> Add a new web app ->  Manual configuration -> Python 3.6(与虚拟环境的版本一致)
+    ```
++ 配置 Virtualenv
+  
+    ```python
+        # 配置 Virtualenv
+  
+        /home/username/djangoblog/myvenv
+    ```
++ WSGI configuration
+  
+    ```python
+        # WSGI configuration file
+        import os
+        import sys
+        
+        path = '/home/<your-username>/my-first-blog'  # use your own username here
+        if path not in sys.path:
+            sys.path.append(path)
+        
+        os.environ['DJANGO_SETTINGS_MODULE'] = 'mysite.settings'
+        
+        from django.core.wsgi import get_wsgi_application
+        
+        application = get_wsgi_application()
+    
+    ```
+
++ static 文件
+    
+    ``` 
+        这是静态文件路径
+        # URL
+        /static/
+        # Directory
+        /home/<your-username>/my-first-blog/static/
+    ```
+
+### 添加页面
+  
+  ```python
+    # mysite/urls
+    from django.contrib import admin
+    from django.urls import path, include
+    
+    urlpatterns = [
+        path('admin/', admin.site.urls),
+        path('', include('blog.urls')),
+    ]
+
+    # blog/urls
+    from django.urls import path
+    from . import views
+    
+    urlpatterns = [
+        path('', views.post_list, name='post_list')
+    ]
+
+    # blog/views.py
+    def post_list(request):
+        return render(request, 'blog/post_list.html', {})
+  ```
