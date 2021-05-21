@@ -9,8 +9,9 @@
         </head>
         <body>
             <div class="page-header">
+                {% if user.is_authenticated %}
                 <h6><a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a></h6>
-
+                {% endif %}
                 <h1><a href="/">Django Girls Blog</a></h1>
             </div>
 
