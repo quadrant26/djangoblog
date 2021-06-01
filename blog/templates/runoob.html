@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{#<h1>{{ hello }}</h1>#}
+{#<h1>{{ name }}</h1>#}
+
+<!-- array -->
+{#<p> {{ views_list }}</p>#}
+{#<p>{{ views_list.0 }}</p>#}
+
+<!-- dict -->
+{#<p>{{ views_dict }}</p>#}
+{#<p>{{ views_dict.name }}</p>#}
+
+<!-- 文件大小换算 -->
+{#<p>{{ num|filesizeformat }}</p>#}
+
+<!-- 日期 -->
+<p>{{ time|date:'Y-m-d' }}</p>
+
+<!-- 截断 -->
+<p>{{ hello|truncatechars:2 }}</p>
+
+<!-- safe -->
+<p>{{ views_str|safe }}</p>
+
+<!-- if -->
+{%if num > 90 and num <= 100 %}
+优秀
+{% elif num > 60 and num <= 90 %}
+合格
+{% else %}
+一边玩去～
+{% endif %}
+
+
+<!-- for -->
+{% for i in views_list %}
+{{ i }}
+{% endfor %}
+
+<!-- 遍历 dict -->
+{% for i,j in views_dict.items %}
+{{ i }}---{{ j }}
+{% endfor %}
+
+
+{% for i in views_list %}
+    {{ forloop.counter }}
+    {{ forloop.counter0 }}
+    {{ forloop.revcounter }}
+    {{ forloop.revcounter0 }}
+    {{ forloop.first }}
+    {{ forloop.last }}
+{% endfor %}
+
+<!-- empty -->
+{% for i in listvar %}
+    {{ forloop.counter0 }}
+{% empty %}
+    空空如也～
+{% endfor %}
+</body>
+</html>
